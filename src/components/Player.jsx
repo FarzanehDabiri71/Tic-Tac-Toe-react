@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol }) {
+export default function Player({ initialName, symbol, isActive }) {
   // State variable to store the player's name, initialized with initialName prop
   const [playerName, setPlayerName] = useState(initialName);
 
@@ -39,9 +39,11 @@ export default function Player({ initialName, symbol }) {
 
     btnCaption = "Save";
   }
+  console.log(isActive, symbol);
+
   return (
     <>
-      <li>
+      <li className={isActive ? "active" : "undefined"}>
         <span>
           {/* player name */}
           {editablePlayerName}
