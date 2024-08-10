@@ -7,6 +7,7 @@ import GameBoard from "./components/GameBoard";
 
 function App() {
   const [activePlayer, setActivePlayer] = useState("X");
+  // Function to toggle the active player
   const handleSelectPlayer = () => {
     setActivePlayer((curActivePlayer) => (curActivePlayer == "X" ? "O" : "X"));
   };
@@ -15,7 +16,7 @@ function App() {
       <main>
         <div id="game-container">
           {/* players */}
-          <ol id="players">
+          <ol id="players" className={"highlight-player"}>
             <Player
               initialName="player 1"
               symbol={"X"}

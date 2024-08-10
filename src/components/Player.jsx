@@ -43,12 +43,13 @@ export default function Player({ initialName, symbol, isActive }) {
 
   return (
     <>
-      <li className={isActive ? "active" : "undefined"}>
-        <span>
+      <li className={isActive ? "active" : undefined}>
+        <span className="player">
           {/* player name */}
           {editablePlayerName}
           {/* player symbol */}
           <span className="player-symbol">{symbol}</span>
+          {/* Button to toggle edit mode */}
         </span>
         {/* update player name  */}
         <button onClick={handleEditClick}>{btnCaption}</button>
