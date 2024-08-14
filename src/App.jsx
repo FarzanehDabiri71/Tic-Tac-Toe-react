@@ -6,25 +6,30 @@ import Player from "./components/Player"; // Importing the Player component
 import GameBoard from "./components/GameBoard"; // Importing the GameBoard component
 import Log from "./components/Log"; // Importing the Log component
 
+const deriveActivePlayer = (gameTurns) => {
+  let currentPlayer = "X"; // Default player is "X"
+
+  // Check if the last move was made by "X" to switch to "O"
+  if (gameTurns.length > 0 && gameTurns[0].player == "X") {
+    currentPlayer = "O";
+  }
+  return currentPlayer;
+};
+
 // Main App component
 function App() {
   // Declare state variables
   const [gameTurns, setGameTurns] = useState([]); // State to track the history of game turns, initialized as an empty array
-  const [activePlayer, setActivePlayer] = useState("X"); // State to track the current active player, initialized to "X"
-
+  // const [activePlayer, setActivePlayer] = useState("X"); // State to track the current active player, initialized to "X"
+  const activePlayer = deriveActivePlayer(gameTurns);
   // Function to toggle the active player and update game turns
   const handleSelectPlayer = (rowIndex, colIndex) => {
     // Toggle the active player between "X" and "O"
-    setActivePlayer((curActivePlayer) => (curActivePlayer == "X" ? "O" : "X"));
+    // setActivePlayer((curActivePlayer) => (curActivePlayer == "X" ? "O" : "X"));
 
     // Update the game turns history
     setGameTurns((prevTurns) => {
-      let currentPlayer = "X"; // Default player is "X"
-
-      // Check if the last move was made by "X" to switch to "O"
-      if (prevTurns.length > 0 && prevTurns[0].player == "X") {
-        currentPlayer = "O";
-      }
+      const currentPlayer = deriveActivePlayer(prevTurns);
       // currentPlayer = activePlayer;
       // Create a new turn entry with the current player's move
       const updateTurns = [
@@ -64,7 +69,7 @@ function App() {
           />
         </div>
         {/* Render the log component */}
-        <Log />
+        <Log turns={gameTurns} />
       </main>
     </>
   );
