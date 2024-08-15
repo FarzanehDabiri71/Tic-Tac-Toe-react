@@ -52,6 +52,7 @@ function App() {
     }
   }
 
+  const hasDraw = gameTurns.length === 9 && !winner;
   // Function to toggle the active player and update game turns
   const handleSelectPlayer = (rowIndex, colIndex) => {
     // Toggle the active player between "X" and "O"
@@ -91,7 +92,7 @@ function App() {
               isActive={activePlayer === "O"} // Determine if Player 2 is the active player
             />
           </ol>
-          {winner && <GameOver winner={winner} />}
+          {(winner || hasDraw) && <GameOver winner={winner} />}
           {/* Render the game board component */}
           <GameBoard
             onSelectPlayer={handleSelectPlayer} // Pass the function to handle player selection
