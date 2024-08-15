@@ -5,7 +5,14 @@ import "./App.css"; // Importing CSS styles for the component
 import Player from "./components/Player"; // Importing the Player component
 import GameBoard from "./components/GameBoard"; // Importing the GameBoard component
 import Log from "./components/Log"; // Importing the Log component
+import { WINNING_COMBINATIONS } from "./components/winning-combination";
+import GameOver from "./components/GameOver";
 
+const initialGameBoard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+];
 const deriveActivePlayer = (gameTurns) => {
   let currentPlayer = "X"; // Default player is "X"
 
@@ -22,6 +29,29 @@ function App() {
   const [gameTurns, setGameTurns] = useState([]); // State to track the history of game turns, initialized as an empty array
   // const [activePlayer, setActivePlayer] = useState("X"); // State to track the current active player, initialized to "X"
   const activePlayer = deriveActivePlayer(gameTurns);
+  let gameBoard = initialGameBoard;
+  for (const turn of gameTurns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+    gameBoard[row][col] = player;
+  }
+  let winner;
+  for (const combination of WINNING_COMBINATIONS) {
+    const firstSquareSymbol =
+      gameBoard[combination[0].row][combination[0].column];
+    const secondSquareSymbol =
+      gameBoard[combination[1].row][combination[1].column];
+    const thirdSquareSymbol =
+      gameBoard[combination[2].row][combination[2].column];
+    if (
+      firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol
+    ) {
+      winner = firstSquareSymbol;
+    }
+  }
+
   // Function to toggle the active player and update game turns
   const handleSelectPlayer = (rowIndex, colIndex) => {
     // Toggle the active player between "X" and "O"
@@ -61,11 +91,12 @@ function App() {
               isActive={activePlayer === "O"} // Determine if Player 2 is the active player
             />
           </ol>
+          {winner && <GameOver winner={winner} />}
           {/* Render the game board component */}
           <GameBoard
             onSelectPlayer={handleSelectPlayer} // Pass the function to handle player selection
             // activePlayerSymbol={activePlayer} // Pass the active player's symbol
-            turns={gameTurns}
+            board={gameBoard}
           />
         </div>
         {/* Render the log component */}
