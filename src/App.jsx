@@ -29,7 +29,7 @@ function App() {
   const [gameTurns, setGameTurns] = useState([]); // State to track the history of game turns, initialized as an empty array
   // const [activePlayer, setActivePlayer] = useState("X"); // State to track the current active player, initialized to "X"
   const activePlayer = deriveActivePlayer(gameTurns);
-  let gameBoard = initialGameBoard;
+  let gameBoard = [...initialGameBoard.map((array) => [...array])];
   for (const turn of gameTurns) {
     const { square, player } = turn;
     const { row, col } = square;
@@ -73,6 +73,9 @@ function App() {
       return updateTurns; // Return the updated list of turns
     });
   };
+  function handleRestart() {
+    setGameTurns([]);
+  }
 
   // Render the component
   return (
@@ -92,7 +95,9 @@ function App() {
               isActive={activePlayer === "O"} // Determine if Player 2 is the active player
             />
           </ol>
-          {(winner || hasDraw) && <GameOver winner={winner} />}
+          {(winner || hasDraw) && (
+            <GameOver winner={winner} onRestart={handleRestart} />
+          )}
           {/* Render the game board component */}
           <GameBoard
             onSelectPlayer={handleSelectPlayer} // Pass the function to handle player selection
