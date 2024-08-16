@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol, isActive }) {
+export default function Player({
+  initialName,
+  symbol,
+  isActive,
+  onChangeName,
+}) {
   // State variable to store the player's name, initialized with initialName prop
   const [playerName, setPlayerName] = useState(initialName);
 
@@ -15,6 +20,9 @@ export default function Player({ initialName, symbol, isActive }) {
 
     // setIsEditing((!isEditing); //true
     // setIsEditing( !isEditing); // true
+    if (isEditing) {
+      onChangeName(symbol, playerName);
+    }
   };
 
   // Handler function to update the playerName state when the input value changes
